@@ -45,7 +45,7 @@ class RawFuncData:
               "variables: ", self.variables, '\n',
               "constants: ", self.constants, '\n',
               "points: ", self.points, '\n'
-                                       "constants_eval: ", self.constants_eval, '\n',
+              "constants_eval: ", self.constants_eval, '\n',
               "variable_errors: ", self.variable_errors, '\n')
 
 
@@ -93,7 +93,7 @@ class Parser:
                                  func_df.iloc[:, np.arange(1, len(func_df.columns) - 1, 2)].columns.tolist()) \
                 if n_variables > 1 else func_nm
             constants = ' '.join(col_nm.split('.')[0] for col_nm in
-                                 const_df.iloc[:, np.arange(1, len(const_df.columns) - 1, 2)].columns.tolist())
+                                 const_df.columns.tolist())
             points = func_df[variables_table.split()].to_numpy()
             constants_eval = const_df[constants.split()].iloc[0, :].to_numpy()
             variable_errors = func_df.iloc[:, np.arange(2, len(func_df.columns) - 1, 2)].to_numpy() \
