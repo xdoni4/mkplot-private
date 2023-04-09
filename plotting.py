@@ -50,11 +50,11 @@ class Plotter:
                                                                                    1.2 * s.x[len(s.x) - 1])
 
         f = open("generated_files/coefs.txt", 'a')
-        if s.type == 'lsq':
+        if s.type == 'linear':
             matrix = np.vstack([s.x, np.ones(len(s.y))]).T
             k, b = np.linalg.lstsq(matrix, s.y, rcond=None)[0]
             sigma_k, sigma_b = Plotter.sigma_eval(s.x, s.y, k, b) 
-            f.write("lsq" + ' ' + s.color + ': k=' + str(k) + ' b='+str(b) +
+            f.write(s.type + ' ' + s.color + ': k=' + str(k) + ' b='+str(b) +
                     ' sigma_k='+str(sigma_k)+' sigma_b='+str(sigma_b)+'\n\n')
             ax.plot(r, k*r+b, color=s.color, label=s.description, linewidth=1)
             ax.errorbar(s.x, s.y, s.yerr, s.xerr, fmt='o', markersize=3, linewidth=1,
@@ -67,7 +67,7 @@ class Plotter:
             matrix = np.vstack([x, np.ones(len(y))]).T
             k, b = np.linalg.lstsq(matrix, y, rcond=None)[0]
             sigma_k, sigma_b = Plotter.sigma_eval(x, y, k, b) 
-            f.write("lsq" + ' ' + s.color + ': k=' + str(k) + ' b='+str(b) + ' sigma_k='+str(sigma_k) +
+            f.write(s.type + ' ' + s.color + ': k=' + str(k) + ' b='+str(b) + ' sigma_k='+str(sigma_k) +
                     ' sigma_b=' + str(sigma_b)+'\n\n')
             ax.plot(v, k*v+b, color=s.color, label=s.description, linewidth=1) 
             ax.errorbar(x, y, fmt='o', markersize=3, linewidth=1, color=s.color, ecolor='black', capsize=0)
@@ -77,7 +77,7 @@ class Plotter:
             ys = np.zeros(len(r))
             for i, c in enumerate(coefs):
                 ys += c * r ** (len(coefs)-i-1) 
-            f.write("lsq" + ' ' + s.color + ":\n")
+            f.write(s.type + ' ' + s.color + ":\n")
             for i, c in enumerate(coefs):
                 f.write("a_"+str(len(coefs)-i-1) + "=" + str(c) + '\n')
             f.write('\n')
