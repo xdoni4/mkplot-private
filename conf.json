@@ -8,9 +8,16 @@
                     "axes_labels" : ["$x$", "$y$"],
                     "axes_pupils" : ["", ""],
                     "color"       : "blue",
-                    "description" : "$y(x)$"
+                    "description" : "$y_1(x)$"
+                },
+                {
+                    "type"        : "poly_2",
+                    "axes_labels" : ["$x$", "$y$"],
+                    "axes_pupils" : ["", ""],
+                    "color"       : "red",
+                    "description" : "$y_2(x)$"
                 }
             ]
-        } 
+        }
     ]
 }
