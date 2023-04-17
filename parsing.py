@@ -1,7 +1,6 @@
+import json
 import numpy as np
 import pandas as pd
-import json
-
 
 class RawSubplotData:
     def __init__(self, pltype, func_x, func_y, axes_labels, axes_pupils, color, description):
@@ -39,6 +38,9 @@ class RawFuncData:
         self.variable_errors = variable_errors
 
     def print(self):
+        '''Выводит атрибуты класса'''
+
+
         print("func_nm: ", self.func_nm, '\n',
               "func_eval: ", self.func_eval, '\n',
               "expr: ", self.expr, '\n',
@@ -52,6 +54,11 @@ class RawFuncData:
 class Parser:
     @classmethod
     def read(cls, filename):
+        '''Чтение конфига и таблицы
+        filename: название конфига
+        Возвращает считанные файлы'''
+
+
         with open(filename, "r") as read_file:
             json_data = json.load(read_file)
             xl = pd.ExcelFile('table.xlsx')
@@ -59,6 +66,12 @@ class Parser:
 
     @classmethod
     def parse_object(cls, data, xl):
+        '''Парсинг графиков
+        data: json из конфига
+        xl: Excel файл
+        Возвращает список распарсенных графиков'''
+
+
         plots = []
         for i, plot in enumerate(data["data"], start=0):
             array = []
@@ -71,7 +84,15 @@ class Parser:
 
     @classmethod
     def parse_df(cls, df):
+        '''Парсинг таблицы
+        df: pd.DataFrame из таблицы
+        Возвращает RawFuncData для y, x'''
+
+
         def split_cols():
+            '''Разбивает датафрейм на три части'''
+
+
             ncols = len(df.columns)
             idx = np.arange(ncols)[df.columns.str.match("Unnamed")]
             df_y = df[df.columns[:idx[0]]]
@@ -80,6 +101,12 @@ class Parser:
             return df_y, df_x, df_const
 
         def get_function(func_df, const_df):
+            '''Создает объекты RawFuncData для функции
+            func_df: датафрейм функции
+            const_df: датафрейм констант
+            Возвращает объект RawFuncData'''
+
+
             func_nm_table = func_df.columns[0]
             func_nm = func_nm_table.split('.')[0]
             func_eval = func_df.iloc[:, 0].to_numpy()
@@ -110,6 +137,12 @@ class Parser:
 
     @classmethod
     def parse_subplot(cls, subplot, df):
+        '''Парсинг подграфиков
+        subplot: dict подграфика
+        df: датафрейм функций
+        Возвращает объект RawSubplotData'''
+
+
         pltype = subplot["type"]
         func_x, func_y = Parser.parse_df(df)
         axes_labels = subplot["axes_labels"]

@@ -1,12 +1,17 @@
 import os
 import matplotlib.pyplot as plt
+import numpy as np
 from gradient import Gradient
-from parsing import *
+from parsing import RawSubplotData, RawFuncData, Parser
 
 
 class Plotter:
     @classmethod
     def plot(cls, plots):
+        '''Строит графики
+        plots: список графиков'''
+
+
         cls.makedirs()
         fig = plt.figure()
         axes = [] 
@@ -25,6 +30,11 @@ class Plotter:
 
     @classmethod
     def plot_subplot(cls, ax, s):
+        '''Строит подграфик на полотне
+        ax: полотно, на котором строится график
+        s: RawSubplotData подграфика'''
+
+
         # ax.scatter(0, 0, color='white') 
         ax.minorticks_on()
         ax.grid(True, which='major', linewidth=1)
@@ -93,6 +103,9 @@ class Plotter:
     
     @staticmethod 
     def makedirs():
+        '''Создает необходимые директории'''
+
+
         if not os.path.exists('generated_files'):
             os.mkdir('generated_files')
         fopen = open("generated_files/coefs.txt", 'a')
@@ -102,6 +115,9 @@ class Plotter:
     
     @classmethod
     def sigma_eval(cls, x, y, k, b):
+        '''Вычисляет погрешности коэффициентов МНК'''
+
+
         xdisp = np.var(x)
         ydisp = np.var(y)
         sigma_k = np.sqrt((ydisp/xdisp - k ** 2) / (len(x)-2))

@@ -23,6 +23,11 @@ class Gradient:
         self.n_variables = n_variables
 
     def compute(self, constants, points):
+        '''Вычисляет градиент функции в точках
+        points: точки
+        Возвращает матрицу из вычисленных градиентов'''
+
+
         assert self.n_variables == points.shape[1]
         constants = constants.astype('float32')
         points = points.astype('float32')
@@ -33,6 +38,10 @@ class Gradient:
         return grads
 
     def latex_derivatives(self):
+        '''Вычисляет (формульно) частных производных функции
+        и записывает в файл'''
+
+
         with open("generated_files/derivatives.tex", "a") as f:
             func_nm_latex = sympy.latex(self.func_nm)
             expr_latex = sympy.latex(self.expr)
@@ -47,6 +56,11 @@ class Gradient:
                         '} = ' + partial_latex + ' \\\\$\n\n')
 
     def sigma_f(self, constants_eval, points, variable_errors):
+        '''Вычисляет погрешность функции по заданным погрешностям
+        независимых переменных в точках
+        Возвращает погрешность для каждой точки'''
+
+
         func_nm_latex = sympy.latex(self.func_nm)
         with open("generated_files/derivatives.tex", "a") as f:
             f.write('$\\sigma_' + func_nm_latex + ' = \\sqrt{')
@@ -61,7 +75,4 @@ class Gradient:
             f.write('}\\\\$\n\n')
         grads = self.compute(constants_eval, points)
         return np.sqrt(((grads ** 2) * (variable_errors ** 2)).sum(axis=1))
-
-
-
 
