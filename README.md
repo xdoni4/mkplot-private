@@ -48,5 +48,5 @@
 
 Когда вы запишете информацию в conf.json, необходимо запустить main.py. \
 График будет сохранен в файле images/fig.png. \
-Latex код будт сохранен в generated_files/derivatives.tex \
+Latex код будт сохранен в generated_files/derivatives.tex. Он формируется автоматически при запуске main.py, либо можно вызвать latex_derivatives у объекта Gradient. Также при вызове sigma_f у объекта Gradient формула погрешности записывается в файл.\
 Коэффициенты регрессии будут сохранены в generated_files/coefs.txt
